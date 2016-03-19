@@ -19,13 +19,11 @@ if (PAYTM_ENVIORMENT== 'TEST') {
 
 module.exports = {
 
-  
-  //paytmnew: {
     MID: MID,
     PAYTM_MERCHANT_KEY :PAYTM_MERCHANT_KEY,
     PAYTM_FINAL_URL :PAYTM_FINAL_URL,
     WEBSITE: WEBSITE,
     CHANNEL_ID: CHANNEL_ID,
     INDUSTRY_TYPE_ID: INDUSTRY_TYPE_ID
- // }
+
 };

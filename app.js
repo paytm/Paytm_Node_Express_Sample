@@ -26,5 +26,4 @@ require('./routes/admin/pgredirect')(app);
 require('./routes/admin/response')(app);
 app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
-//app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
