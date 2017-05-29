@@ -8,37 +8,32 @@ var crypto = require('crypto');
 
 function paramsToString(params, mandatoryflag) {
   var data = '';
-  var flag = params.refund ? true : false;
-  delete params.refund;
   var tempKeys = Object.keys(params);
-  if (!flag) tempKeys.sort();
   tempKeys.forEach(function (key) {
+-	var n = params[key].includes("REFUND");	
+	
+ -	var m = params[key].includes("|");			
+ -		if(n == false || m == false)		
+ -		{		
     if (key !== 'CHECKSUMHASH' ) {
       if (params[key] === 'null') params[key] = '';
       if (!mandatoryflag || mandatoryParams.indexOf(key) !== -1) {
         data += (params[key] + '|');
       }
     }
-  });
+  }
+});
   return data;
 }
 
 
 function genchecksum(params, key, cb) {
-  var flag = params.refund ? true : false;
   var data = paramsToString(params);
-
-  crypt.gen_salt(4, function (err, salt) {
+crypt.gen_salt(4, function (err, salt) {
     var sha256 = crypto.createHash('sha256').update(data + salt).digest('hex');
     var check_sum = sha256 + salt;
     var encrypted = crypt.encrypt(check_sum, key);
-    if (flag) {
-      params.CHECKSUM = encodeURIComponent(encrypted);
-      params.CHECKSUM = encrypted;
-    } else {
-      params.CHECKSUMHASH = encodeURIComponent(encrypted);
       params.CHECKSUMHASH = encrypted;
-    }
     cb(undefined, params);
   });
 }
@@ -93,8 +88,37 @@ function verifychecksumbystring(params, key,checksumhash) {
     }
   } 
 
+function genchecksumforrefund(params, key, cb) {
+  var data = paramsToStringrefund(params);
+crypt.gen_salt(4, function (err, salt) {
+    var sha256 = crypto.createHash('sha256').update(data + salt).digest('hex');
+    var check_sum = sha256 + salt;
+    var encrypted = crypt.encrypt(check_sum, key);
+      params.CHECKSUM = encodeURIComponent(encrypted);
+    cb(undefined, params);
+  });
+}
+
+function paramsToStringrefund(params, mandatoryflag) {
+  var data = '';
+  var tempKeys = Object.keys(params);
+  tempKeys.forEach(function (key) {
+ -	var m = params[key].includes("|");			
+ -		if(m == false)		
+ -		{		
+    if (key !== 'CHECKSUMHASH' ) {
+      if (params[key] === 'null') params[key] = '';
+      if (!mandatoryflag || mandatoryParams.indexOf(key) !== -1) {
+        data += (params[key] + '|');
+      }
+    }
+  }
+});
+  return data;
+}
 
 module.exports.genchecksum = genchecksum;
 module.exports.verifychecksum = verifychecksum;
 module.exports.verifychecksumbystring = verifychecksumbystring;
 module.exports.genchecksumbystring = genchecksumbystring;
+module.exports.genchecksumforrefund = genchecksumforrefund;
