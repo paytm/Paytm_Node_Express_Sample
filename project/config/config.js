@@ -10,11 +10,9 @@ var CHANNEL_ID =  'WEB';
 var INDUSTRY_TYPE_ID = 'Retail';
 var PAYTM_FINAL_URL = '';
 if (PAYTM_ENVIORMENT== 'TEST') {
-
- PAYTM_FINAL_URL = PAYTM_STAG_URL + '/oltp-web/processTransaction'
-}else
-{
-  PAYTM_FINAL_URL = PAYTM_PROD_URL + '/oltp-web/processTransaction'
+  PAYTM_FINAL_URL = 'https://securegw-stage.paytm.in/theia/processTransaction';
+}else{
+  PAYTM_FINAL_URL = 'https://securegw.paytm.in/theia/processTransaction';
 }
 
 module.exports = {
