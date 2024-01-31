@@ -16,6 +16,6 @@
     "express-myconnection": "^1.0.4",
     "multer": "^1.1.0",
     "mysql": "^2.10.2",
-    "nodemailer": "0.7.1"
+    "nodemailer": "6.9.8"
   }
 }
